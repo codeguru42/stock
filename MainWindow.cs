@@ -8,9 +8,15 @@ namespace stock
 		public static void Main ()
 		{
 			Application.Init();
-			new MainWindow();
+			MainWindow window = new MainWindow();
+			window.DeleteEvent += deleteEvent;
 			Application.Run();
 		}
+
+		static void deleteEvent (object obj, DeleteEventArgs args)
+        {
+	        Application.Quit ();
+        }
 
 		public MainWindow () : 
 				base(Gtk.WindowType.Toplevel)
