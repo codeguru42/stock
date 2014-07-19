@@ -50,5 +50,6 @@
     <Compile Include="gtk-gui\generated.cs" />
     <Compile Include="MainWindow.cs" />
     <Compile Include="gtk-gui\stock.MainWindow.cs" />
+    <Compile Include="Stock.cs" />
   </ItemGroup>
 </Project>
