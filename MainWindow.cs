@@ -7,8 +7,8 @@ namespace stock
 	{
 		public static void Main ()
 		{
-			Stock google = new Stock("GOOG");
-			google.getHistory();
+			Stock google = new Stock("YHOO");
+			google.getHistory("2013-07-18", "2014-07-18");
 		}
 
 		static void deleteEvent (object obj, DeleteEventArgs args)
