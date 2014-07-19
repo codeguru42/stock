@@ -7,7 +7,7 @@ namespace stock
 	{
 		public static void Main ()
 		{
-			Stock google = new Stock("YHOO");
+			Stock google = new Stock("GOOG");
 			google.getHistory("2013-07-18", "2014-07-18");
 		}
 

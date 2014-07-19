@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace stock
 {
@@ -15,10 +18,13 @@ namespace stock
 
 		public void getHistory (String startDate, String endDate)
 		{
-			Console.WriteLine(doQuery(startDate, endDate));
+			Stream json = doQuery (startDate, endDate);
+			JArray quotes = parse (json);
+
+			Console.WriteLine (quotes);
 		}
 
-		private String doQuery (String startDate, String endDate)
+		private Stream doQuery (String startDate, String endDate)
 		{
 			String yqlQuery = "select Date, Open, Close from yahoo.finance.historicaldata where symbol = \""
 				+ mSymbol + "\"  and startDate = \"" + startDate + "\" and endDate = \"" + endDate + "\"";
@@ -27,8 +33,15 @@ namespace stock
 
 			WebRequest request = WebRequest.Create(url);
 			WebResponse response = request.GetResponse();
-			StreamReader stream = new StreamReader(response.GetResponseStream());
-			return stream.ReadToEnd();
+			return response.GetResponseStream();
+		}
+
+		private JArray parse (Stream json)
+		{
+			JObject obj = (JObject)JToken.ReadFrom(new JsonTextReader(new StreamReader(json)));
+			JArray quote = (JArray)obj["query"]["results"]["quote"];
+
+			return quote;
 		}
 	}
 }
