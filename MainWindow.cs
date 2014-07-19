@@ -1,5 +1,7 @@
 using Gtk;
 using System;
+using System.IO;
+using System.Net;
 
 namespace stock
 {
@@ -7,10 +9,10 @@ namespace stock
 	{
 		public static void Main ()
 		{
-			Application.Init();
-			MainWindow window = new MainWindow();
-			window.DeleteEvent += deleteEvent;
-			Application.Run();
+			WebRequest request = WebRequest.Create("http://www.google.com");
+			WebResponse response = request.GetResponse();
+			StreamReader stream = new StreamReader(response.GetResponseStream());
+			Console.Write(stream.ReadToEnd());
 		}
 
 		static void deleteEvent (object obj, DeleteEventArgs args)
