@@ -54,6 +54,7 @@
     <Compile Include="Stock.cs" />
     <Compile Include="Quote.cs" />
     <Compile Include="StockPrediction.cs" />
+    <Compile Include="IPredictor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
