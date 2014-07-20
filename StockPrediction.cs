@@ -5,13 +5,15 @@ namespace stock
 {
 	public class StockPrediction
 	{
-		public static void Main ()
+		public static void Main (String[] args)
 		{
 			DateTime today = DateTime.Today;
-			Stock stock = new Stock ("MSFT");
+			Stock stock = new Stock (args[0]);
 			List<Quote> quotes = stock.getHistory (today.AddYears(-1), today);
-			int range = 7;
+			quotes.Sort ();
+			int range = 5;
 
+			Console.WriteLine("date,prediction,actual,error,%error");
 			for (int i = 0; i < quotes.Count - range - 1; i++) {
 				IPredictor predictor = new LeastSquaresPredictor (quotes.GetRange(i, range));
 
@@ -19,8 +21,8 @@ namespace stock
 				Quote actual = quotes[i + range + 1];
 				double error = actual .close - prediction;
 
-				Console.WriteLine ("prediction=" + prediction + " actual=" + actual.close + " error=" + error
-				                   + " %error=" + (error/actual.close));
+				Console.WriteLine (actual.date + "," + prediction + "," + actual.close + ","
+				                   + error + "," + (error/actual.close));
 			}
 		}
 	}
