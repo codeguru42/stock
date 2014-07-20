@@ -7,8 +7,11 @@ namespace stock
 	{
 		public static void Main ()
 		{
-			Stock google = new Stock("MSFT");
-			IList<Quote> quotes = google.getHistory("2013-07-18", "2014-07-18");
+			DateTime now = DateTime.Today;
+			DateTime then = now.AddDays(-5);
+
+			Stock stock = new Stock("MSFT");
+			IList<Quote> quotes = stock.getHistory(then, now);
 
 			foreach (Quote quote in quotes) {
 				Console.WriteLine (quote);

@@ -16,9 +16,10 @@ namespace stock
 			mSymbol = symbol;
 		}
 
-		public IList<Quote> getHistory (String startDate, String endDate)
+		public IList<Quote> getHistory (DateTime startDate, DateTime endDate)
 		{
-			Stream json = doQuery (startDate, endDate);
+			String format = "yyyy-MM-dd";
+			Stream json = doQuery (startDate.ToString(format), endDate.ToString(format));
 			return parse (json);
 		}
 
