@@ -52,7 +52,7 @@ namespace stock
 		private Quote parseQuote (JToken jsonQuote)
 		{
 			Quote quote = new Quote();
-			quote.date = (string)jsonQuote["Date"];
+			quote.setDate((string)jsonQuote["Date"]);
 			quote.open = (double)jsonQuote["Open"];
 			quote.close = (double)jsonQuote["Close"];
 

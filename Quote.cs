@@ -4,7 +4,9 @@ namespace stock
 {
 	public class Quote
 	{
-		public String date { get; set; }
+		public const string FORMAT = "yyyy-MM-dd";
+
+		public DateTime date { get; set; }
 		public double open { get; set; }
 		public double close { get; set; }
 
@@ -12,6 +14,14 @@ namespace stock
 		{
 			return "{date=" + date + ",open=" + open + ",close=" + close +"}";
 		}
+
+		public void setDate(String dateStr)
+		{
+			date = DateTime.ParseExact (dateStr, FORMAT, null);
+		}
+
+		public String getDate() {
+			return date.ToString (FORMAT);
+		}
 	}
 }
-
