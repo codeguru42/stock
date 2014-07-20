@@ -16,14 +16,10 @@ namespace stock
 			mSymbol = symbol;
 		}
 
-		public void getHistory (String startDate, String endDate)
+		public IList<Quote> getHistory (String startDate, String endDate)
 		{
 			Stream json = doQuery (startDate, endDate);
-			IList<Quote> quotes = parse (json);
-
-			foreach (Quote quote in quotes) {
-				Console.WriteLine (quote);
-			}
+			return parse (json);
 		}
 
 		private Stream doQuery (String startDate, String endDate)

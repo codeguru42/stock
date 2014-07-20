@@ -38,10 +38,25 @@
       <HintPath>..\..\..\lib\json.net\Bin\Net35\Newtonsoft.Json.dll</HintPath>
       <Package>monodevelop</Package>
     </Reference>
+    <Reference Include="QuickGraph">
+      <HintPath>packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickGraph.Serialization">
+      <HintPath>packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickGraph.Data">
+      <HintPath>packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickGraph.Graphviz">
+      <HintPath>packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.Graphviz.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Stock.cs" />
     <Compile Include="Quote.cs" />
     <Compile Include="StockPrediction.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
