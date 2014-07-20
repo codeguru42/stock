@@ -2,7 +2,7 @@ using System;
 
 namespace stock
 {
-	public class Quote
+	public class Quote : IComparable<Quote>
 	{
 		public const string FORMAT = "yyyy-MM-dd";
 
@@ -22,6 +22,11 @@ namespace stock
 
 		public String getDate() {
 			return date.ToString (FORMAT);
+		}
+
+		public int CompareTo(Quote other)
+		{
+			return date.CompareTo (other.date);
 		}
 	}
 }
