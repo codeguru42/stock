@@ -12,10 +12,12 @@ namespace stock
 
 			Stock stock = new Stock("MSFT");
 			IList<Quote> quotes = stock.getHistory(then, now);
+			IPredictor predictor = new LeastSquaresPredictor (quotes);
 
 			foreach (Quote quote in quotes) {
 				Console.WriteLine (quote);
 			}
+			Console.WriteLine (predictor.getPrediction());
 		}
 	}
 }
