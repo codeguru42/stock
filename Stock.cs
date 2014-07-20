@@ -19,9 +19,11 @@ namespace stock
 		public void getHistory (String startDate, String endDate)
 		{
 			Stream json = doQuery (startDate, endDate);
-			JArray quotes = parse (json);
+			IList<Quote> quotes = parse (json);
 
-			Console.WriteLine (quotes);
+			foreach (Quote quote in quotes) {
+				Console.WriteLine (quote);
+			}
 		}
 
 		private Stream doQuery (String startDate, String endDate)
@@ -36,10 +38,26 @@ namespace stock
 			return response.GetResponseStream();
 		}
 
-		private JArray parse (Stream json)
+		private IList<Quote> parse (Stream json)
 		{
-			JObject obj = (JObject)JToken.ReadFrom(new JsonTextReader(new StreamReader(json)));
-			JArray quote = (JArray)obj["query"]["results"]["quote"];
+			JObject obj = (JObject)JToken.ReadFrom (new JsonTextReader (new StreamReader (json)));
+			JArray jsonQuotes = (JArray)obj ["query"] ["results"] ["quote"];
+
+			IList<Quote> quotes = new List<Quote> ();
+
+			foreach (JToken jsonQuote in jsonQuotes) {
+				quotes.Add(parseQuote(jsonQuote));
+			}
+
+			return quotes;
+		}
+
+		private Quote parseQuote (JToken jsonQuote)
+		{
+			Quote quote = new Quote();
+			quote.date = (string)jsonQuote["Date"];
+			quote.open = (double)jsonQuote["Open"];
+			quote.close = (double)jsonQuote["Close"];
 
 			return quote;
 		}
