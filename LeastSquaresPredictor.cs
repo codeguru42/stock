@@ -5,17 +5,9 @@ namespace stock
 {
 	public class LeastSquaresPredictor : IPredictor
 	{
-		private List<Quote> quotes;
-
-		public LeastSquaresPredictor (IList<Quote> quotes)
+		public double getPrediction (IList<Quote> quotes)
 		{
-			this.quotes = new List<Quote> (quotes);
-			this.quotes.Sort ();
-		}
-
-		public double getPrediction ()
-		{
-			IList<Point> points = getPoints ();
+			IList<Point> points = getPoints (quotes);
 
 			double xsum = 0.0;
 			double ysum = 0.0;
@@ -43,7 +35,7 @@ namespace stock
 			return a + b * x;
 		}
 
-		private IList<Point> getPoints ()
+		private IList<Point> getPoints (IList<Quote> quotes)
 		{
 			IList<Point> points = new List<Point> ();
 			long min = quotes [0].date.Ticks;
