@@ -9,6 +9,7 @@ namespace stock
 {
 	public class Stock
 	{
+		const String FORMAT = "yyyy-MM-dd";
 		private String mSymbol;
 
 		public Stock (String symbol)
@@ -16,34 +17,47 @@ namespace stock
 			mSymbol = symbol;
 		}
 
-		public IList<Quote> getHistory (DateTime startDate, DateTime endDate)
+		public List<Quote> getHistory (DateTime startDate, DateTime endDate)
 		{
-			String format = "yyyy-MM-dd";
-			Stream json = doQuery (startDate.ToString(format), endDate.ToString(format));
+			Stream json = doQuery (startDate.ToString (FORMAT), endDate.ToString (FORMAT));
 			return parse (json);
+		}
+
+		public Quote getQuote (DateTime date)
+		{
+			String dateStr = date.ToString (FORMAT);
+			Stream json = doQuery (dateStr, dateStr);
+			JObject obj = (JObject)JToken.ReadFrom (new JsonTextReader (new StreamReader (json)));
+			JToken results = obj ["query"] ["results"];
+
+			if (!results.HasValues) {
+				return null;
+			} else {
+				return parseQuote (((JObject)results) ["quote"]);
+			}
 		}
 
 		private Stream doQuery (String startDate, String endDate)
 		{
 			String yqlQuery = "select Date, Open, Close from yahoo.finance.historicaldata where symbol = \""
 				+ mSymbol + "\"  and startDate = \"" + startDate + "\" and endDate = \"" + endDate + "\"";
-			String url = "http://query.yahooapis.com/v1/public/yql?q=" + System.Uri.EscapeDataString(yqlQuery)
+			String url = "http://query.yahooapis.com/v1/public/yql?q=" + System.Uri.EscapeDataString (yqlQuery)
 				+ "&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
 
-			WebRequest request = WebRequest.Create(url);
-			WebResponse response = request.GetResponse();
-			return response.GetResponseStream();
+			WebRequest request = WebRequest.Create (url);
+			WebResponse response = request.GetResponse ();
+			return response.GetResponseStream ();
 		}
 
-		private IList<Quote> parse (Stream json)
+		private List<Quote> parse (Stream json)
 		{
 			JObject obj = (JObject)JToken.ReadFrom (new JsonTextReader (new StreamReader (json)));
 			JArray jsonQuotes = (JArray)obj ["query"] ["results"] ["quote"];
 
-			IList<Quote> quotes = new List<Quote> ();
+			List<Quote> quotes = new List<Quote> ();
 
 			foreach (JToken jsonQuote in jsonQuotes) {
-				quotes.Add(parseQuote(jsonQuote));
+				quotes.Add (parseQuote (jsonQuote));
 			}
 
 			return quotes;
@@ -51,10 +65,10 @@ namespace stock
 
 		private Quote parseQuote (JToken jsonQuote)
 		{
-			Quote quote = new Quote();
-			quote.setDate((string)jsonQuote["Date"]);
-			quote.open = (double)jsonQuote["Open"];
-			quote.close = (double)jsonQuote["Close"];
+			Quote quote = new Quote ();
+			quote.setDate ((string)jsonQuote ["Date"]);
+			quote.open = (double)jsonQuote ["Open"];
+			quote.close = (double)jsonQuote ["Close"];
 
 			return quote;
 		}

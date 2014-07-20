@@ -7,17 +7,21 @@ namespace stock
 	{
 		public static void Main ()
 		{
-			DateTime now = DateTime.Today;
-			DateTime then = now.AddDays(-5);
+			DateTime today = DateTime.Today;
+			Stock stock = new Stock ("MSFT");
+			List<Quote> quotes = stock.getHistory (today.AddYears(-1), today);
+			int range = 7;
 
-			Stock stock = new Stock("MSFT");
-			IList<Quote> quotes = stock.getHistory(then, now);
-			IPredictor predictor = new LeastSquaresPredictor (quotes);
+			for (int i = 0; i < quotes.Count - range - 1; i++) {
+				IPredictor predictor = new LeastSquaresPredictor (quotes.GetRange(i, range));
 
-			foreach (Quote quote in quotes) {
-				Console.WriteLine (quote);
+				double prediction = predictor.getPrediction ();
+				Quote actual = quotes[i + range + 1];
+				double error = actual .close - prediction;
+
+				Console.WriteLine ("prediction=" + prediction + " actual=" + actual.close + " error=" + error
+				                   + " %error=" + (error/actual.close));
 			}
-			Console.WriteLine (predictor.getPrediction());
 		}
 	}
 }
