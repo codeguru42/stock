@@ -34,18 +34,6 @@
   <ItemGroup>
     <Reference Include="Mono.Posix" />
     <Reference Include="System" />
-    <Reference Include="QuickGraph">
-      <HintPath>packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.dll</HintPath>
-    </Reference>
-    <Reference Include="QuickGraph.Serialization">
-      <HintPath>packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.Serialization.dll</HintPath>
-    </Reference>
-    <Reference Include="QuickGraph.Data">
-      <HintPath>packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="QuickGraph.Graphviz">
-      <HintPath>packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.Graphviz.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\lib\json.net\Bin\Portable40\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -57,6 +45,9 @@
     <Compile Include="IPredictor.cs" />
     <Compile Include="LeastSquaresPredictor.cs" />
     <Compile Include="NeuralNetworkPredictor.cs" />
+    <Compile Include="ITrainer.cs" />
+    <Compile Include="GeneticAlgorithmTrainer.cs" />
+    <Compile Include="NeuralNetwork.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
